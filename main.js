@@ -988,6 +988,7 @@ if (form && successPopup) {
 
 // --- CONTACT MODAL LOGIC ---
 const initiateBtn = document.getElementById('initiateProjectBtn');
+const navContactBtn = document.getElementById('navContactLink');
 const contactModal = document.getElementById('contactModal');
 const closeContactModal = document.getElementById('closeContactModal');
 const contactOverlay = document.getElementById('contactOverlay');
@@ -1004,6 +1005,7 @@ if (initiateBtn && contactModal && closeContactModal && contactOverlay) {
   };
 
   initiateBtn.addEventListener('click', openModal);
+  if (navContactBtn) navContactBtn.addEventListener('click', openModal);
   closeContactModal.addEventListener('click', closeModal);
   contactOverlay.addEventListener('click', closeModal);
 }
