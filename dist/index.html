@@ -8,30 +8,35 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   
-  <script type="module" crossorigin src="/assets/index-B4nBIFfo.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CGY9cnhn.css">
+  <script type="module" crossorigin src="/assets/index-_H72c2G2.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CH69TuDe.css">
 </head>
 <body>
-  
-  <!-- Preloader -->
-  <div id="preloader">
-    <img src="/assets/purescribe_logo_v3-KkbeaWIx.png" alt="Purescribe Innovations Logo" class="preloader-logo">
-    <h1 class="preloader-text">Purescribe <span class="highlight">Innovations</span></h1>
+  <!-- Ambient Fluid Background Effect -->
+  <div class="ambient-bg">
+    <div class="ambient-blob blob-red"></div>
+    <div class="ambient-blob blob-violet"></div>
   </div>
 
-  <header class="glass-header" id="header">
+  <!-- Global Premium Noise Overlay -->
+  <div class="noise-overlay"></div>
+  <!-- Preloader -->
+  <div id="preloader">
+    <canvas id="preloader-canvas"></canvas>
+  </div>
+
+  <header class="bento-header" id="header">
     <div class="logo-container">
-      <img src="/assets/purescribe_logo_v3-KkbeaWIx.png" alt="Purescribe Innovations Logo" class="logo-img" id="logo">
+      <img src="/assets/purescribe_logo_v6_transparent-BJtVu0IV.png" alt="Purescribe Innovations Logo" class="logo-img" id="logo">
       <span class="logo-text">Purescribe <span class="highlight">Innovations</span></span>
     </div>
     <nav>
       <ul>
-        <li><a href="#services">Services</a></li>
         <li><a href="#portfolio">Featured Work</a></li>
+        <li><a href="#benefits">Our Benefits</a></li>
         <li><a href="#about">Philosophy</a></li>
-        <li><a href="#benefits">Benefits</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -42,15 +47,11 @@
 
   <!-- Hero Section -->
   <section class="hero" id="hero">
-    <video autoplay loop muted playsinline class="hero-video">
-      <source src="/assets/Create_a_premium_cinematic_-BLzgwwns.mp4" type="video/mp4">
+    <video loop muted playsinline class="hero-video" id="heroVideo">
+      <source src="/assets/Create_a_premium_cinematic_-7LosFk_8.mp4" type="video/mp4">
     </video>
+    <div class="hero-hidden-text" id="heroHiddenText">Beyond Ideas. Beyond Limits.</div>
     
-    <div class="hero-content">
-      <h1 class="hero-title">Crafting Digital <span class="highlight-text">Excellence</span></h1>
-      <p class="hero-subtitle">Premium web applications designed with absolute precision. We build secure, reliable, and flawlessly animated platforms that scale seamlessly with your business.</p>
-      <button class="hero-btn glass-btn">Discover More</button>
-    </div>
     
     <div class="scroll-indicator">
       <div class="mouse"></div>
@@ -58,109 +59,140 @@
     </div>
   </section>
 
-  <!-- Spacer 1: Breathing Room -->
-  <section class="spacer-section" id="spacer-1">
-    <h2 class="spacer-text">Innovation is not a feature.<br><span class="highlight-text">It is a foundation.</span></h2>
-  </section>
-
-  <!-- Canvas Image Sequence Section -->
-  <section class="canvas-section" id="showcase">
-    <div class="sticky-container">
-      <canvas id="sequence-canvas"></canvas>
-      <div class="sequence-overlay">
-        <h2 class="sequence-title">Flawless Precision.</h2>
-        <p class="sequence-desc">Experience pixel-perfect animations designed to captivate your audience.</p>
+  <!-- Manifesto Scroll Animation Section -->
+  <section class="manifesto-section" id="manifesto">
+    <div class="manifesto-container">
+      <div class="manifesto-primary">
+        <h2 class="manifesto-text">We don't build websites.</h2>
+        <div class="strike-line"></div>
+      </div>
+      <div class="manifesto-secondary">
+        <canvas id="particle-canvas"></canvas>
       </div>
     </div>
   </section>
 
-  <!-- What We Can Do Section -->
+  <!-- Digital Arsenal (Services) Section -->
   <section class="services-section" id="services">
-    <div class="services-sticky-container">
-      <div class="services-header">
-        <h2 class="section-title" style="text-align: left;">Our Capabilities</h2>
-        <p class="section-subtitle">We engineer sophisticated digital ecosystems, from ultra-fast landing pages to complex, AI-driven enterprise portals.</p>
+    <div class="services-header">
+      <h2 class="services-title split-title">Our Services</h2>
+      <p class="services-subtitle split-title">What we can build for you.</p>
+    </div>
+    
+    <div class="card-fan-container" id="card-fan">
+      <!-- Card 1 -->
+      <div class="arsenal-card card-1">
+        <img src="/scroll_telling.png" alt="Scroll Telling Animations" class="card-img">
+        <div class="card-overlay">
+          <h3 class="card-title">Scroll Telling</h3>
+          <p class="card-desc">Beautiful animations that tell a story as you scroll down the page.</p>
+        </div>
       </div>
-      
-      <div class="services-track">
-        <!-- Card 1 -->
-        <div class="service-card glass-card">
-          <div class="card-icon">01</div>
-          <h3>Performance Landing Pages</h3>
-          <p>Ultra-fast, secure, and visually stunning web environments architected for maximum conversion and SEO optimization.</p>
+      <!-- Card 2 -->
+      <div class="arsenal-card card-2">
+        <img src="/3d_motion.png" alt="3D Motion Websites" class="card-img">
+        <div class="card-overlay">
+          <h3 class="card-title">3D Motion</h3>
+          <p class="card-desc">Interactive 3D models and graphics that load fast right in your browser.</p>
         </div>
-        <!-- Card 2 -->
-        <div class="service-card glass-card">
-          <div class="card-icon">02</div>
-          <h3>Dynamic Web Applications</h3>
-          <p>Data-driven, highly customizable software platforms designed to adapt to complex logic and scale seamlessly with your operations.</p>
+      </div>
+      <!-- Card 3 -->
+      <div class="arsenal-card card-3">
+        <img src="/high_functionality.png" alt="High Functionality Websites" class="card-img">
+        <div class="card-overlay">
+          <h3 class="card-title">High Functionality</h3>
+          <p class="card-desc">Powerful dashboards and web apps designed to be easy to use and perfectly reliable.</p>
         </div>
-        <!-- Card 3 -->
-        <div class="service-card glass-card">
-          <div class="card-icon">03</div>
-          <h3>Immersive Digital Experiences</h3>
-          <p>Award-winning motion graphics leveraging GSAP, WebGL, and precise mathematical physics to captivate and engage users.</p>
-        </div>
-        <!-- Card 4 -->
-        <div class="service-card glass-card">
-          <div class="card-icon">04</div>
-          <h3>Enterprise Portals & Platforms</h3>
-          <p>Highly secure, robust corporate platforms tailored to specific workflows, engineered to handle massive concurrent traffic with zero downtime.</p>
+      </div>
+      <!-- Card 4 -->
+      <div class="arsenal-card card-4">
+        <img src="/portal.png" alt="Portal Websites" class="card-img">
+        <div class="card-overlay">
+          <h3 class="card-title">Portal Gateways</h3>
+          <p class="card-desc">Unique digital experiences that connect your users to the modern web.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Tech Stack Infinite Marquee -->
-  <section class="tech-marquee">
-    <div class="marquee-track">
-      <span>React.js</span><span>Node.js</span><span>GSAP</span><span>TypeScript</span><span>WebGL</span><span>Next.js</span><span>Framer Motion</span><span>AWS</span>
-      <!-- Duplicate for infinite loop -->
-      <span>React.js</span><span>Node.js</span><span>GSAP</span><span>TypeScript</span><span>WebGL</span><span>Next.js</span><span>Framer Motion</span><span>AWS</span>
+  <!-- Decompress Mini-Game Section -->
+  <section class="decompress-section" id="decompress">
+    <div class="decompress-header">
+      <h2 class="decompress-title">Take A Break</h2>
+      <p class="decompress-subtitle">We will do the hard work. You just play the game.</p>
+      <p class="game-instructions">Move your mouse quickly to kick the ball into the glowing top net!</p>
+      <div class="game-score">Score: <span id="anomaly-score">0</span></div>
+    </div>
+    
+    <div class="game-board" id="game-board">
+      <div class="goal-post" id="goal-post"></div>
+      <div class="game-cursor" id="game-cursor"></div>
+      <div class="football" id="football"></div>
     </div>
   </section>
 
-  <!-- Animated Process Timeline -->
-  <section class="process-section" id="process">
-    <h2 class="section-title">How We Build</h2>
-    <div class="timeline-container">
-      <div class="timeline-line">
-        <div class="timeline-progress"></div>
+
+  <!-- Velocity-Driven "Nothing" Marquee Section -->
+  <section class="marquee-section">
+    <!-- Top Track: Solid glowing text, moves left -->
+    <div class="marquee-track-container track-left">
+      <div class="marquee-content">
+        <span class="marquee-text solid-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
+        <span class="marquee-text solid-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
+        <span class="marquee-text solid-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
+        <span class="marquee-text solid-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
       </div>
-      <div class="timeline-node">
-        <div class="node-dot"></div>
-        <div class="node-content">
-          <h3>1. Discovery & Planning</h3>
-          <p>We analyze your business needs to architect a highly secure, consistent, and scalable technical foundation.</p>
-        </div>
+    </div>
+    
+    <!-- Bottom Track: Transparent outline text, moves right -->
+    <div class="marquee-track-container track-right">
+      <div class="marquee-content">
+        <span class="marquee-text outline-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
+        <span class="marquee-text outline-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
+        <span class="marquee-text outline-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
+        <span class="marquee-text outline-text">REACT.JS &bull; NODE.JS &bull; GSAP &bull; TYPESCRIPT &bull; WEBGL &bull; NEXT.JS &bull; FRAMER MOTION &bull; AWS &bull; </span>
       </div>
-      <div class="timeline-node">
-        <div class="node-dot"></div>
-        <div class="node-content">
-          <h3>2. Premium UI/UX Design</h3>
-          <p>Crafting high-end, responsive layouts with cinematic 3D interactions that captivate and convert users.</p>
-        </div>
+    </div>
+  </section>
+
+  <!-- Particle Assembly Ideas Section -->
+  <section class="ideas-section" id="process">
+    <h2 class="ideas-title blur-reveal">Ideas are very important</h2>
+    
+    <div class="cards-grid">
+      <!-- Card 1 -->
+      <div class="idea-card">
+        <div class="idea-num">1.</div>
+        <h3 class="idea-title">Discover</h3>
+        <p class="idea-desc">Book a call</p>
       </div>
-      <div class="timeline-node">
-        <div class="node-dot"></div>
-        <div class="node-content">
-          <h3>3. Robust Development</h3>
-          <p>Writing clean, efficient code focused on rock-solid security, fast loading speeds, and smooth functionality.</p>
-        </div>
+
+      <!-- Card 2 -->
+      <div class="idea-card">
+        <div class="idea-num">2.</div>
+        <h3 class="idea-title">Design</h3>
+        <p class="idea-desc">Share your ideas</p>
       </div>
-      <div class="timeline-node">
-        <div class="node-dot"></div>
-        <div class="node-content">
-          <h3>4. Flawless Deployment</h3>
-          <p>Launching lightning-fast, highly reliable platforms equipped with rigorous monitoring and uptime guarantees.</p>
-        </div>
+
+      <!-- Card 3 -->
+      <div class="idea-card">
+        <div class="idea-num">3.</div>
+        <h3 class="idea-title">Build</h3>
+        <p class="idea-desc">Leave it to us</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="idea-card">
+        <div class="idea-num">4.</div>
+        <h3 class="idea-title">Launch</h3>
+        <p class="idea-desc">Within weeks</p>
       </div>
     </div>
   </section>
 
   <!-- Portfolio Hover List -->
   <section class="portfolio-list-section" id="portfolio">
-    <h2 class="section-title">Featured Work</h2>
+    <h2 class="portfolio-title blur-reveal">We've started working.<br>Add your idea to the <span class="highlight">list below.</span></h2>
     <div class="portfolio-list">
       <div class="portfolio-list-item magnetic" data-desc="A centralized, high-performance enterprise resource planning platform for retail management.">OmniStore ERP</div>
       <div class="portfolio-list-item magnetic" data-desc="A luxurious, butter-smooth 3D showcase platform for premium gold and diamond collections.">Aura Fine Jewelry</div>
@@ -174,51 +206,19 @@
     </div>
   </section>
 
-  <!-- Video Showcase Section -->
-  <section class="video-showcase-section">
-    <video autoplay loop muted playsinline class="showcase-video">
-      <source src="/assets/generate_k_premium_cinematic-Dkfrdcgm.mp4" type="video/mp4">
-    </video>
-    <div class="video-showcase-content bottom-left">
-      <h2 class="video-showcase-title small">Experience <span class="highlight-text">Flawless</span> Precision</h2>
-    </div>
-  </section>
 
-  <!-- About / Philosophy Section -->
-  <section class="about-section" id="about">
-    <div class="about-container">
-      <h2 class="section-title">Our Philosophy</h2>
-      <div class="glass-card main-card moto-card">
-        <h3>Reliable & Premium Web Engineering</h3>
-        <p>At Purescribe Innovations, we specialize in architecting digital platforms that fuse butter-smooth aesthetics with military-grade consistency and security. We do not just build websites; we engineer robust, reliable, and cinematic digital products.</p>
-      </div>
-      
-      <div class="cards-grid">
-        <div class="glass-card mini-card moto-card">
-          <h4>Ironclad Security</h4>
-          <p>We build with top-tier security standards, ensuring your data and users are always protected.</p>
-        </div>
-        <div class="glass-card mini-card moto-card">
-          <h4>Smooth Functionality</h4>
-          <p>Consistently fast loading times, perfectly clean code, and highly reliable server architecture.</p>
-        </div>
-        <div class="glass-card mini-card moto-card">
-          <h4>Cinematic Animations</h4>
-          <p>We craft scroll-driven stories and high-end visual effects that function perfectly across all devices.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Our Benefits Section (3D Flip Cards) -->
   <section class="benefits-section" id="benefits">
-    <h2 class="section-title">Our Benefits</h2>
+    <h2 class="section-title blur-reveal">Our Benefits</h2>
     <div class="flip-cards-container">
       
       <div class="flip-card-wrapper">
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
+              <img src="/assets/prototype_card-D_HE7vHA.png" class="flip-card-img" alt="Prototype">
+              <div class="flip-card-overlay"></div>
               <h3>01. <br>1-Day Prototype</h3>
             </div>
             <div class="flip-card-back">
@@ -232,6 +232,8 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
+              <img src="/assets/engineering_card-BqlfQBZh.png" class="flip-card-img" alt="Engineering">
+              <div class="flip-card-overlay"></div>
               <h3>02. <br>Elite Engineering</h3>
             </div>
             <div class="flip-card-back">
@@ -245,6 +247,8 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
+              <img src="/assets/efficiency_card-CI8uSIN-.png" class="flip-card-img" alt="Efficiency">
+              <div class="flip-card-overlay"></div>
               <h3>03. <br>Strategic Efficiency</h3>
             </div>
             <div class="flip-card-back">
@@ -258,6 +262,8 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
+              <img src="/assets/deployment_card-DxyN8xLs.png" class="flip-card-img" alt="Deployment">
+              <div class="flip-card-overlay"></div>
               <h3>04. <br>Rapid Deployment</h3>
             </div>
             <div class="flip-card-back">
@@ -271,6 +277,8 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
+              <img src="/assets/assurance_card-MH9i0yz5.png" class="flip-card-img" alt="Assurance">
+              <div class="flip-card-overlay"></div>
               <h3>05. <br>Total Assurance</h3>
             </div>
             <div class="flip-card-back">
@@ -283,63 +291,138 @@
     </div>
   </section>
 
-  <!-- Contact Us Section -->
-  <section class="contact-section" id="contact">
-    <h2 class="section-title">Contact Us</h2>
-    <div class="contact-container glass-card">
+  <!-- About / Philosophy Section -->
+  <section class="about-section" id="about">
+    <div class="about-container">
+      <h2 class="section-title blur-reveal">Our Philosophy</h2>
+      <div class="bento-card main-card moto-card">
+        <h3>Reliable & Premium Web Engineering</h3>
+        <p>At Purescribe Innovations, we specialize in architecting digital platforms that fuse butter-smooth aesthetics with military-grade consistency and security. We do not just build websites; we engineer robust, reliable, and cinematic digital products.</p>
+      </div>
       
-      <div class="contact-info">
-        <h3>Engineer Your Digital Future</h3>
-        <p>Ready to elevate your digital infrastructure? Connect with our team of specialists directly or submit a project inquiry below.</p>
-        <div class="info-links">
-          <a href="tel:+919392362789">Phone: 9392362789</a>
-          <a href="mailto:purescribeinnovations@gmail.com">Email: purescribeinnovations@gmail.com</a>
-          <a href="https://www.linkedin.com/company/purescribe-innovations/" target="_blank">LinkedIn: Purescribe Innovations</a>
+      <div class="cards-grid">
+        <div class="bento-card mini-card moto-card">
+          <h4>Ironclad Security</h4>
+          <p>We build with top-tier security standards, ensuring your data and users are always protected.</p>
+        </div>
+        <div class="bento-card mini-card moto-card">
+          <h4>Smooth Functionality</h4>
+          <p>Consistently fast loading times, perfectly clean code, and highly reliable server architecture.</p>
+        </div>
+        <div class="bento-card mini-card moto-card">
+          <h4>Cinematic Animations</h4>
+          <p>We craft scroll-driven stories and high-end visual effects that function perfectly across all devices.</p>
         </div>
       </div>
-
-      <div class="contact-form-wrapper">
-        <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
-          <!-- Web3Forms Access Key for purescribeinnovations@gmail.com -->
-          <input type="hidden" name="access_key" value="c45143c9-0f2c-4b1d-a22d-43d6e6d85e5b">
-          
-          <div class="input-group">
-            <input type="text" name="name" required placeholder="Name">
-          </div>
-          <div class="input-group">
-            <input type="tel" name="phone" required placeholder="Phone Number">
-          </div>
-          <div class="input-group">
-            <input type="email" name="email" required placeholder="Email Address">
-          </div>
-          <div class="input-group">
-            <textarea name="idea" required placeholder="Describe your project requirements..."></textarea>
-          </div>
-          
-          <!-- Hcaptcha for spam protection (optional but recommended by Web3Forms) -->
-          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-          
-          <button type="submit" class="glass-btn submit-btn">Send Message</button>
-        </form>
-      </div>
-      
     </div>
   </section>
+
+
   
   </main> <!-- End of content-wrapper -->
 
-  <footer class="reveal-footer">
-    <div class="footer-content">
-      <h2 class="footer-title">Let's Build The <span class="highlight-text">Future</span></h2>
-      <button class="glass-btn massive-btn">Initiate A Project</button>
-      <p>&copy; 2026 Purescribe Innovations. All Rights Reserved.</p>
+  <footer class="reveal-footer" id="contact">
+    <div class="footer-layout">
+      <div class="footer-content">
+        <h2 class="footer-title blur-reveal">Let's Build The <span class="highlight-text">Future</span></h2>
+        <button class="bento-btn massive-btn blur-reveal" id="initiateProjectBtn">
+          <span class="btn-text">Initiate A Project</span>
+        </button>
+        <p class="blur-reveal">&copy; 2026 Purescribe Innovations. All Rights Reserved.</p>
+      </div>
+      
+      <!-- Interactive Robot SVG -->
+      <div class="footer-robot blur-reveal">
+        <svg id="interactive-robo" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body (Stationary) -->
+          <g id="robo-body" fill="none" stroke="var(--highlight-color)" stroke-width="2">
+            <path d="M60 140 L140 140 L155 200 L45 200 Z" fill="rgba(0, 85, 255, 0.05)" />
+            <line x1="80" y1="140" x2="70" y2="200" />
+            <line x1="120" y1="140" x2="130" y2="200" />
+            <!-- Neck -->
+            <rect x="90" y="120" width="20" height="20" />
+            <line x1="90" y1="130" x2="110" y2="130" stroke-width="1" />
+          </g>
+          
+          <!-- Head (Rotates & Moves) -->
+          <!-- We set transform-origin in CSS via GSAP -->
+          <g id="robo-head" fill="none" stroke="var(--text-color)" stroke-width="2">
+            <!-- Main head box -->
+            <rect x="50" y="50" width="100" height="70" rx="15" fill="var(--bento-surface)" />
+            <!-- Antennas / Ears -->
+            <path d="M40 70 L50 70 M150 70 L160 70" stroke="var(--highlight-color)" stroke-width="4" stroke-linecap="round" />
+            <!-- Antenna Top -->
+            <line x1="100" y1="50" x2="100" y2="35" stroke-width="2" />
+            <circle cx="100" cy="30" r="5" fill="var(--highlight-color)" stroke="none" filter="drop-shadow(0 0 5px var(--highlight-color))" />
+            
+            <!-- Face screen -->
+            <rect x="65" y="65" width="70" height="40" rx="8" fill="#050505" stroke="var(--bento-border)" />
+            
+            <!-- Eyes (Translates within screen) -->
+            <g id="robo-eyes" fill="var(--highlight-color)" filter="drop-shadow(0 0 8px var(--highlight-color))">
+              <circle cx="85" cy="85" r="6" />
+              <circle cx="115" cy="85" r="6" />
+            </g>
+          </g>
+        </svg>
+      </div>
     </div>
   </footer>
+
+  <!-- Contact Us Modal -->
+  <div class="contact-modal" id="contactModal">
+    <div class="contact-modal-overlay" id="contactOverlay"></div>
+    <div class="contact-modal-content bento-card">
+      <button class="close-modal-btn" id="closeContactModal">&times;</button>
+      <h2 class="section-title">Contact Us</h2>
+      <div class="contact-container" style="padding: 0; box-shadow: none; border: none; background: transparent; backdrop-filter: none;">
+        
+        <div class="contact-info">
+          <h3>Engineer Your Digital Future</h3>
+          <p>Ready to elevate your digital infrastructure? Connect with our team of specialists directly or submit a project inquiry below.</p>
+          <div class="info-links">
+            <a href="tel:+919392362789">Phone: 9392362789</a>
+            <a href="mailto:purescribeinnovations@gmail.com">Email: purescribeinnovations@gmail.com</a>
+            <a href="https://www.linkedin.com/company/purescribe-innovations/" target="_blank">LinkedIn: Purescribe Innovations</a>
+          </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+            <input type="hidden" name="access_key" value="c45143c9-0f2c-4b1d-a22d-43d6e6d85e5b">
+            
+            <div class="input-group">
+              <input type="text" name="name" required placeholder="Name">
+            </div>
+            <div class="input-group">
+              <input type="tel" name="phone" required placeholder="Phone Number">
+            </div>
+            <div class="input-group">
+              <input type="email" name="email" required placeholder="Email Address">
+            </div>
+            <div class="input-group">
+              <textarea name="idea" required placeholder="Describe your project requirements..."></textarea>
+            </div>
+            
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+            
+            <button type="submit" class="bento-btn submit-btn">
+              <span class="btn-text">Send Message</span>
+            </button>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
 
   <!-- Success Popup -->
   <div id="success-popup" class="success-popup">
-    <p>Message Sent Successfully!</p>
+    <p><strong>Transmission Secured! 🔒</strong><br><br>We've locked your brilliant idea in our digital vault. Our top engineers are brewing coffee right now and will contact you shortly to discuss the next steps.<br><br><em>Trust us, you're in great hands.</em></p>
+    <button class="bento-btn" id="closeSuccessBtn" style="margin-top: 25px; width: 100%;">
+      <span class="btn-text">Close</span>
+    </button>
   </div>
 </body>
 </html>
