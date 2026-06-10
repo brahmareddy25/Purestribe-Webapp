@@ -1723,6 +1723,11 @@ nav a:hover {
   .sequence-desc { font-size: 1.2rem; }
   
   /* Services / Digital Arsenal */
+  .services-section {
+    height: auto !important;
+    overflow: visible !important;
+    padding-bottom: 100px;
+  }
   .card-fan-container {
     position: relative;
     height: auto;
