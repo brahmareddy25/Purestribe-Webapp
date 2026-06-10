@@ -433,18 +433,7 @@ if (servicesSection) {
   });
 
   mm.add("(max-width: 768px)", () => {
-    // Mobile: Simple vertical stagger reveal, no pinning
-    gsap.from('.arsenal-card', {
-      scrollTrigger: {
-        trigger: servicesSection,
-        start: "top 70%"
-      },
-      y: 30,
-      opacity: 0,
-      stagger: 0.2,
-      duration: 0.8,
-      ease: "power2.out"
-    });
+    // Mobile: Native CSS handles stacking, no GSAP interference needed.
   });
            
   // Add hover interactions safely to pull a card out of the "hand"
