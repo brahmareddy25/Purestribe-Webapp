@@ -1,7 +1,22 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// --- PREMIUM SMOOTH SCROLLING ENGINE ---
+const lenis = new Lenis({
+  lerp: 0.08, // Buttery smooth easing
+  smoothWheel: true
+});
+
+lenis.on('scroll', ScrollTrigger.update);
+
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+
+gsap.ticker.lagSmoothing(0);
 
 // --- GLOBAL BLUR REVEAL ENGINE ---
 const blurElements = document.querySelectorAll('.blur-reveal');
@@ -35,31 +50,20 @@ if (ambientBlobRed) {
     yToBlob(e.clientY);
   });
 }
-// --- UTILS ---
-function splitTextIntoWords(element) {
-  if (!element) return [];
-  const words = element.innerText.split(' ');
-  element.innerHTML = '';
-  const spans = [];
-  words.forEach(word => {
-    const span = document.createElement('span');
-    span.innerText = word + ' ';
-    span.style.display = 'inline-block';
-    // Preserve 3D transforms
-    span.style.transformStyle = "preserve-3d";
-    element.appendChild(span);
-    spans.push(span);
-  });
-  return spans;
-}
 
 
 
 // --- ENTRANCE ANIMATIONS ---
 document.addEventListener("DOMContentLoaded", () => {
+  // Disable scroll during preloader
+  document.body.style.overflow = 'hidden';
+  
   const mainTl = gsap.timeline({ paused: true });
 
   function startSite() {
+    // Re-enable scroll
+    document.body.style.overflow = '';
+    
     mainTl.play();
     const video = document.getElementById('heroVideo');
     if (video) {
@@ -186,33 +190,32 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    let exploding = false;
+    // Animation state values
+    let alphaState = { particles: 1, crisp: 0 };
     
     const tl = gsap.timeline();
     
-    // Hold on the combined screen for ~3 seconds
-    tl.to({}, { duration: 3.5 })
-    // Explode outwards
-      .call(() => { 
-        exploding = true; 
-        particles.forEach(p => {
-          p.vx = (Math.random() - 0.5) * 60;
-          p.vy = (Math.random() - 0.5) * 60;
-        });
-      })
-    // Slide preloader up and start site
-      .to("#preloader", { y: "-100%", duration: 1.0, ease: "power3.inOut", delay: 0.2, onComplete: () => {
+    // Assemble for 1.5 seconds, then crossfade to crisp logo/text
+    tl.to(alphaState, { crisp: 1, particles: 0, duration: 1.0, delay: 1.5 })
+      .to({}, { duration: 1.0 }) // Hold the crisp view for 1s
+      // Slide preloader up and start site
+      .to("#preloader", { y: "-100%", duration: 1.0, ease: "power3.inOut", onComplete: () => {
         document.getElementById('preloader').style.display = 'none';
         gsap.ticker.remove(render);
         startSite();
       }});
 
     function render() {
-      ctx.fillStyle = 'rgba(10, 10, 10, 0.4)';
+      // Fade old particles to create motion trails without painting a solid black background
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'; // The alpha controls the trail length
       ctx.fillRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'source-over';
       
-      particles.forEach((p, i) => {
-        if (!exploding) {
+      // Draw Particles
+      if (alphaState.particles > 0) {
+        ctx.globalAlpha = alphaState.particles;
+        particles.forEach((p, i) => {
           let tx, ty;
           if (i < currentTargets.length) {
             tx = currentTargets[i].x;
@@ -223,18 +226,46 @@ document.addEventListener("DOMContentLoaded", () => {
           }
           p.vx += (tx - p.x) * p.spring;
           p.vy += (ty - p.y) * p.spring;
-        }
+          
+          p.vx *= p.friction;
+          p.vy *= p.friction;
+          p.x += p.vx;
+          p.y += p.vy;
+          
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+      
+      // Draw Crisp Content
+      if (alphaState.crisp > 0) {
+        ctx.globalAlpha = alphaState.crisp;
         
-        p.vx *= p.friction;
-        p.vy *= p.friction;
-        p.x += p.vx;
-        p.y += p.vy;
+        // 1. Logo
+        let imgW = logoImg.width;
+        let imgH = logoImg.height;
+        const ratio = Math.min(Math.min(w * 0.8, 600) / imgW, Math.min(h * 0.5, 500) / imgH);
+        imgW *= ratio;
+        imgH *= ratio;
+        const imgX = (w - imgW) / 2;
+        const imgY = (h - imgH) / 2 - h * 0.15;
+        ctx.drawImage(logoImg, imgX, imgY, imgW, imgH);
         
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
+        // 2. Text 1
+        ctx.fillStyle = 'white';
+        const fontSize1 = Math.min(w * 0.065, 70);
+        ctx.font = `bold ${fontSize1}px 'Outfit', sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText("Purescribe Innovations", w / 2, h / 2 + h * 0.18);
+        
+        // 3. Text 2
+        const fontSize2 = Math.min(w * 0.1, 110);
+        ctx.font = `bold ${fontSize2}px 'Outfit', sans-serif`;
+        ctx.fillText("Are you ready?", w / 2, h / 2 + h * 0.35);
+      }
     }
     gsap.ticker.add(render);
   };
@@ -437,6 +468,7 @@ const scoreEl = document.getElementById('anomaly-score');
 
 if (gameBoard && gameCursor && football) {
   let score = 0;
+  let isGameOver = false;
   let mouseX = -1000; 
   let mouseY = -1000;
   let prevMouseX = -1000;
@@ -451,11 +483,20 @@ if (gameBoard && gameCursor && football) {
   const ballRadius = 15;
   const cursorRadius = 20;
   
+  // Create win overlay HTML
+  const winOverlay = document.createElement('div');
+  winOverlay.classList.add('game-win-overlay');
+  winOverlay.innerHTML = `
+    <h2 class="game-win-title">YOU WIN!</h2>
+    <p class="game-win-subtitle">Great footwork. Let's get back to building the future.</p>
+  `;
+  gameBoard.appendChild(winOverlay);
+  
   const xTo = gsap.quickTo(gameCursor, "x", {duration: 0.05, ease: "power3.out"});
   const yTo = gsap.quickTo(gameCursor, "y", {duration: 0.05, ease: "power3.out"});
   
   gameBoard.addEventListener("mouseenter", () => {
-    gsap.to(gameCursor, { opacity: 1, duration: 0.3 });
+    if(!isGameOver) gsap.to(gameCursor, { opacity: 1, duration: 0.3 });
   });
   
   gameBoard.addEventListener("mouseleave", () => {
@@ -465,6 +506,7 @@ if (gameBoard && gameCursor && football) {
   });
 
   gameBoard.addEventListener("mousemove", (e) => {
+    if(isGameOver) return;
     const rect = gameBoard.getBoundingClientRect();
     mouseX = e.clientX - rect.left;
     mouseY = e.clientY - rect.top;
@@ -473,7 +515,30 @@ if (gameBoard && gameCursor && football) {
     yTo(mouseY);
   });
   
+  gameBoard.addEventListener("touchmove", (e) => {
+    if(isGameOver) return;
+    e.preventDefault(); // Prevent page scrolling while playing
+    const rect = gameBoard.getBoundingClientRect();
+    const touch = e.touches[0];
+    mouseX = touch.clientX - rect.left;
+    mouseY = touch.clientY - rect.top;
+    
+    xTo(mouseX);
+    yTo(mouseY);
+  }, { passive: false });
+  
+  gameBoard.addEventListener("touchstart", (e) => {
+    if(!isGameOver) gsap.to(gameCursor, { opacity: 1, duration: 0.3 });
+  }, { passive: true });
+  
+  gameBoard.addEventListener("touchend", () => {
+    gsap.to(gameCursor, { opacity: 0, duration: 0.3 });
+    mouseX = -1000; 
+    mouseY = -1000;
+  });
+  
   function spawnBall() {
+    if(isGameOver) return;
     const rect = gameBoard.getBoundingClientRect();
     const w = rect.width || 800;
     const h = rect.height || 400;
@@ -487,21 +552,55 @@ if (gameBoard && gameCursor && football) {
     gsap.to(football, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.5)" });
   }
   
-  function createBurst(x, y) {
-    for (let i = 0; i < 12; i++) {
+  function createBurst(x, y, isMassive = false) {
+    const numParticles = isMassive ? 100 : 12;
+    const colors = ['#00e5ff', '#ff3366', '#ffffff', '#0055ff'];
+    
+    for (let i = 0; i < numParticles; i++) {
       const particle = document.createElement('div');
       particle.classList.add('burst-particle');
+      
+      // Random colors for celebration
+      if(isMassive) {
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.boxShadow = `0 0 10px ${particle.style.backgroundColor}`;
+      }
+      
       gameBoard.appendChild(particle);
       gsap.set(particle, { x: x, y: y });
-      const angle = (Math.PI * 2 / 12) * i;
-      const distance = 50 + Math.random() * 80;
+      
+      const angle = isMassive ? Math.random() * Math.PI * 2 : (Math.PI * 2 / 12) * i;
+      const distance = isMassive ? 100 + Math.random() * 400 : 50 + Math.random() * 80;
+      
       gsap.to(particle, {
         x: x + Math.cos(angle) * distance,
-        y: y + Math.sin(angle) * distance,
-        opacity: 0, scale: 0, duration: 0.6 + Math.random() * 0.4,
-        ease: "power2.out", onComplete: () => particle.remove()
+        y: y + Math.sin(angle) * distance + (isMassive ? 200 : 0), // Add gravity if massive
+        opacity: 0, 
+        scale: isMassive ? Math.random() * 1.5 : 0, 
+        duration: isMassive ? 1 + Math.random() * 1.5 : 0.6 + Math.random() * 0.4,
+        ease: "power2.out", 
+        onComplete: () => particle.remove()
       });
     }
+  }
+
+  function triggerWinCelebration() {
+    isGameOver = true;
+    
+    // Hide ball and cursor
+    gsap.to([football, gameCursor], { opacity: 0, scale: 0, duration: 0.3 });
+    
+    const rect = gameBoard.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // Massive confetti burst
+    createBurst(centerX, centerY, true);
+    setTimeout(() => createBurst(centerX - 150, centerY + 50, true), 300);
+    setTimeout(() => createBurst(centerX + 150, centerY + 50, true), 600);
+    
+    // Show Win Overlay
+    gsap.to(winOverlay, { opacity: 1, scale: 1, duration: 1, ease: "elastic.out(1, 0.5)", delay: 0.5 });
   }
 
   // Initial spawn
@@ -509,10 +608,11 @@ if (gameBoard && gameCursor && football) {
 
   // The Physics Game Loop
   gsap.ticker.add(() => {
+    if (isGameOver) return; // Stop processing physics
+    
     const rect = gameBoard.getBoundingClientRect();
     if (rect.bottom < 0 || rect.top > window.innerHeight || !rect.width) return;
     
-    // Calculate ultra-smooth cursor velocity inside the 60fps loop instead of sporadic mousemove events
     if (prevMouseX !== -1000 && mouseX !== -1000) {
       mouseVx = mouseX - prevMouseX;
       mouseVy = mouseY - prevMouseY;
@@ -520,47 +620,41 @@ if (gameBoard && gameCursor && football) {
     prevMouseX = mouseX;
     prevMouseY = mouseY;
     
-    // 1. Friction (slows ball down over time - increased slightly for smoother glide)
     ballVx *= 0.985;
     ballVy *= 0.985;
     
-    // 2. Apply Velocity
     ballX += ballVx;
     ballY += ballVy;
     
-    // 3. Wall Collisions & Goal Logic (Smoother bounces)
-    if (ballX < ballRadius) { ballX = ballRadius; ballVx *= -0.9; } // Left wall
-    if (ballX > rect.width - ballRadius) { ballX = rect.width - ballRadius; ballVx *= -0.9; } // Right wall
+    if (ballX < ballRadius) { ballX = ballRadius; ballVx *= -0.9; }
+    if (ballX > rect.width - ballRadius) { ballX = rect.width - ballRadius; ballVx *= -0.9; }
     
     if (ballY < ballRadius) { 
-      // Top wall collision - Check for GOAL!
-      // Goal post is top-center, width 200px
       const goalLeft = rect.width / 2 - 100;
       const goalRight = rect.width / 2 + 100;
       
       if (ballX > goalLeft && ballX < goalRight) {
-        // GOAL SCORED!
         score += 1;
         if (scoreEl) scoreEl.innerText = score;
         
-        // Massive explosion at the goal
         createBurst(ballX, ballRadius);
         
-        // Hide ball and reset
         gsap.to(football, { scale: 0, duration: 0.1 });
         ballX = -2000; ballY = -2000; ballVx = 0; ballVy = 0;
         
-        setTimeout(spawnBall, 1000);
+        if (score >= 3) {
+          triggerWinCelebration();
+        } else {
+          setTimeout(spawnBall, 1000);
+        }
       } else {
-        // Normal bounce off top wall
         ballY = ballRadius; 
         ballVy *= -0.9; 
       }
     }
     
-    if (ballY > rect.height - ballRadius) { ballY = rect.height - ballRadius; ballVy *= -0.9; } // Bottom wall
+    if (ballY > rect.height - ballRadius) { ballY = rect.height - ballRadius; ballVy *= -0.9; }
     
-    // 4. Cursor Collision (The "Kick")
     if (mouseX !== -1000) {
       const dx = ballX - mouseX;
       const dy = ballY - mouseY;
@@ -568,29 +662,23 @@ if (gameBoard && gameCursor && football) {
       const minDistance = ballRadius + cursorRadius;
       
       if (distance < minDistance) {
-        // Collision detected! Calculate kick trajectory
         const angle = Math.atan2(dy, dx);
         
-        // Separate the objects to prevent getting stuck
         const overlap = minDistance - distance;
         ballX += Math.cos(angle) * overlap;
         ballY += Math.sin(angle) * overlap;
         
-        // Transfer momentum (Mouse Velocity)
-        // Ensure even slow movements trigger a smooth bump
         const mouseSpeed = Math.sqrt(mouseVx * mouseVx + mouseVy * mouseVy);
         const kickForce = Math.min(Math.max(mouseSpeed * 0.7, 8), 25); 
         
         ballVx = Math.cos(angle) * kickForce;
         ballVy = Math.sin(angle) * kickForce;
         
-        // Reset mouse velocity to prevent instant double-kicking
         mouseVx = 0;
         mouseVy = 0;
       }
     }
     
-    // Render
     gsap.set(football, { x: ballX, y: ballY });
   });
 }
@@ -649,7 +737,6 @@ if (marqueeTracks.length > 0) {
 // --- SCROLL REVEALS FOR CARDS ---
 const cards = document.querySelectorAll('.bento-card');
 const flipCards = document.querySelectorAll('.flip-card-wrapper');
-const contactContainer = document.querySelector('.contact-container');
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -714,29 +801,7 @@ if (motoCards.length > 0) {
   if (motoContainer) motoObserver.observe(motoContainer);
 }
 
-if (contactContainer) {
-  observer.observe(contactContainer);
-}
 
-
-
-// --- 5-POINT EXPERT UPGRADES ---
-
-// 1. BREATHING ROOM FADES
-const spacers = document.querySelectorAll('.spacer-text');
-spacers.forEach(spacer => {
-  gsap.from(spacer, {
-    scrollTrigger: {
-      trigger: spacer,
-      start: "top 80%",
-      toggleActions: "play none none reverse"
-    },
-    y: 50,
-    opacity: 0,
-    duration: 1,
-    ease: "power3.out"
-  });
-});
 
 // 2. SHOW AI: TEXT SCRAMBLE EFFECT
 const chars = '!<>-_\\/[]{}—=+*^?#_';
@@ -901,15 +966,24 @@ if (portfolioSection && portfolioItems.length > 0 && magGlass && magText) {
   let xTo = gsap.quickTo(magGlass, "left", { duration: 0.4, ease: "power3" }),
       yTo = gsap.quickTo(magGlass, "top", { duration: 0.4, ease: "power3" });
 
-  // Track mouse inside the section (we keep this so it follows the mouse)
-  portfolioSection.addEventListener('mousemove', (e) => {
+  let isGlassVisible = false;
+
+  // Track mouse globally so if a scroll triggers a hover, we know where to place the glass
+  window.addEventListener('mousemove', (e) => {
+    // Only update position if we are hovering over the portfolio section
+    // but tracking globally helps catch the first scroll-in
     xTo(e.clientX - 125); // Center the 250px circle
     yTo(e.clientY - 125);
   });
 
-  // Handle specific item hovers to show description text and the magnifying glass itself
   portfolioItems.forEach((item) => {
-    item.addEventListener('mouseenter', () => {
+    item.addEventListener('mouseenter', (e) => {
+      isGlassVisible = true;
+      
+      // Update position immediately in case it was a scroll-induced hover
+      xTo(e.clientX - 125);
+      yTo(e.clientY - 125);
+      
       // Dim non-hovered items
       portfolioItems.forEach(i => { if (i !== item) i.style.opacity = 0.2; });
       
@@ -922,6 +996,7 @@ if (portfolioSection && portfolioItems.length > 0 && magGlass && magText) {
     });
     
     item.addEventListener('mouseleave', () => {
+      isGlassVisible = false;
       // Restore all items
       portfolioItems.forEach(i => i.style.opacity = 1);
       
