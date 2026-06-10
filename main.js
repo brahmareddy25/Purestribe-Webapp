@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const logoImg = new Image();
-  logoImg.src = '/public/purescribe_logo_v6_transparent.png';
+  logoImg.src = '/purescribe_logo_v6_transparent.png';
   
   logoImg.onload = () => {
     // 1. Logo targets (Massive bird, moved up)
