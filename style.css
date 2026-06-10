@@ -1704,7 +1704,7 @@ nav a:hover {
 /* Mobile */
 @media (max-width: 768px) {
   /* Header */
-  .glass-header { 
+  .bento-header { 
     padding: 15px 20px; 
     flex-direction: column;
     gap: 15px;
@@ -1737,6 +1737,7 @@ nav a:hover {
     transform: none !important;
     width: 90vw;
     max-width: 400px;
+    height: 400px; /* Fixed height for mobile */
     margin-top: 0;
   }
   
@@ -1772,8 +1773,9 @@ nav a:hover {
   .bento-card { padding: 25px; }
   
   /* Flip Cards */
-  .flip-cards-container { gap: 20px; }
-  .flip-card { width: 100%; max-width: 320px; }
+  .flip-cards-container { gap: 20px; flex-direction: column; align-items: center; }
+  .flip-card-wrapper { width: 100%; display: flex; justify-content: center; }
+  .flip-card { width: 100%; max-width: 320px; height: 350px; }
   
   /* Contact Form */
   .contact-container { padding: 30px 20px; gap: 30px; }
