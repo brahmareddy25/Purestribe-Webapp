@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Text 1 targets (Larger text, moved down below bird)
     const text1Points = getPointsFromText("Purescribe Innovations", Math.min(w * 0.065, 70), 4, h * 0.18);
     // 3. Text 2 targets (Massive text, moved further down)
-    const text2Points = getPointsFromText("Are you ready?", Math.min(w * 0.1, 110), 4, h * 0.35);
+    const text2Points = getPointsFromText("Beyond Ideas. Beyond limits.", Math.min(w * 0.05, 50), 4, h * 0.35);
     
     // Combine all into one massive target array
     let currentTargets = [...logoPoints, ...text1Points, ...text2Points];
@@ -263,8 +263,8 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // 3. Text 2
         const fontSize2 = Math.min(w * 0.1, 110);
-        ctx.font = `bold ${fontSize2}px 'Outfit', sans-serif`;
-        ctx.fillText("Are you ready?", w / 2, h / 2 + h * 0.35);
+        ctx.font = `800 ${Math.min(w * 0.05, 50)}px 'Outfit', sans-serif`;
+        ctx.fillText("Beyond Ideas. Beyond limits.", w / 2, h / 2 + h * 0.35);
       }
     }
     gsap.ticker.add(render);
