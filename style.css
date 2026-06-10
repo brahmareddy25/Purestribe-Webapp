@@ -1699,6 +1699,42 @@ nav a:hover {
   .video-showcase-title.small { font-size: 2rem; }
   .service-card h3 { font-size: 3rem; }
   .cards-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+  
+  /* Services Horizontal Carousel (Tablet & Mobile) */
+  .services-section {
+    height: auto !important;
+    overflow: hidden !important;
+    padding-bottom: 80px;
+  }
+  .card-fan-container {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory;
+    width: 100vw !important;
+    padding: 0 5vw 40px 5vw !important; /* Bottom padding for shadow */
+    gap: 30px !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .card-fan-container::-webkit-scrollbar {
+    display: none;
+  }
+  .arsenal-card {
+    position: relative !important;
+    flex: 0 0 85vw !important;
+    max-width: 350px !important;
+    height: 400px !important;
+    scroll-snap-align: center !important;
+    transform: none !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 }
 
 /* Mobile */
@@ -1721,30 +1757,6 @@ nav a:hover {
   .hero-subtitle { font-size: 1.2rem; margin-bottom: 20px; }
   .sequence-title { font-size: 3rem; }
   .sequence-desc { font-size: 1.2rem; }
-  
-  /* Services / Digital Arsenal */
-  .services-section {
-    height: auto !important;
-    overflow: visible !important;
-    padding-bottom: 100px;
-  }
-  .card-fan-container {
-    position: relative;
-    height: auto;
-    width: 100%;
-    display: block !important;
-  }
-  .arsenal-card {
-    position: static !important;
-    display: block !important;
-    transform: none !important;
-    width: 90vw !important;
-    max-width: 400px !important;
-    height: 400px !important;
-    margin: 0 auto 30px auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
   
   /* Bento Grid */
   .cards-grid {

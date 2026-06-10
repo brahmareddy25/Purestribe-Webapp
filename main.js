@@ -414,7 +414,7 @@ if (servicesSection) {
   // Pinned Card Fan Timeline (Desktop Only)
   let mm = gsap.matchMedia();
   
-  mm.add("(min-width: 769px)", () => {
+  mm.add("(min-width: 1025px)", () => {
     const cardFanTl = gsap.timeline({
       scrollTrigger: {
         trigger: servicesSection,
@@ -432,7 +432,7 @@ if (servicesSection) {
              .to('.card-4', { rotation: 15, x: 180, duration: 1 }, 0);
   });
 
-  mm.add("(max-width: 768px)", () => {
+  mm.add("(max-width: 1024px)", () => {
     // Mobile: Native CSS handles stacking, no GSAP interference needed.
   });
            
